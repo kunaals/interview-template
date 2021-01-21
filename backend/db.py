@@ -8,17 +8,3 @@ db_session = scoped_session(sessionmaker(autocommit=False,
                                          bind=engine))
 Base = declarative_base()
 Base.query = db_session.query_property()
-
-def init_db():
-  import sys, os
-  sys.path.append(sys.path.append(os.path.dirname(__file__)))
-  # import all modules here that might define models so that
-  # they will be registered properly on the metadata.  Otherwise
-  # you will have to import them first before calling init_db()
-  from .models.user_model import UserModel
-  Base.metadata.drop_all(bind=engine)
-  Base.metadata.create_all(bind=engine)
-
-  user = UserModel(first_name="Test", last_name="User")
-  db_session.add(user)
-  db_session.commit()

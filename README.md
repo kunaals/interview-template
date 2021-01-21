@@ -2,7 +2,7 @@
 ## Create python3 virtualenv
 ```
 python3 -m venv env
-source env/bin/activate
+source env/bin/activate # you need to run this before running any python commands
 ```
 
 ## Install dependencies
@@ -13,7 +13,7 @@ pip install -r requirements.txt
 ## Init db
 start `python` interpreter
 ```
-from backend.db import init_db
+from backend.init_db import init_db
 init_db()
 ```
 
@@ -39,7 +39,7 @@ Changes to frontend code are auto reloaded.
 # Testing
 Graphql query explorer: http://localhost:5000/graphql
 
-Homepage: http://localhost:5000 
+Homepage: http://localhost:5000
 ![Screenshot](sample-screenshot1.png)
 
 

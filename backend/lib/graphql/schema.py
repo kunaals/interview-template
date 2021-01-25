@@ -1,7 +1,7 @@
 import graphene
 from graphene import ObjectType, String, Schema
 from graphene_sqlalchemy import SQLAlchemyObjectType
-from models.user_model import UserModel
+from backend.models.user_model import UserModel
 
 class User(SQLAlchemyObjectType):
   class Meta:

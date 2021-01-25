@@ -1,10 +1,11 @@
-import sys, os
-sys.path.append(sys.path.append(os.path.dirname(__file__)))
+import sys
+from os import path
+sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 from flask import Flask, render_template
 
 from flask_graphql import GraphQLView
-from lib.graphql.schema import schema
+from backend.lib.graphql.schema import schema
 
 app = Flask(__name__)
 app.debug = True

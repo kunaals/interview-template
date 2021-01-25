@@ -29,11 +29,11 @@ class Query(ObjectType):
     return query.filter(UserModel.id == id).first()
 
   def resolve_vendors(root, info):
-    query = Vendor.get_query(info)  # SQLAlchemy query
+    query = Vendor.get_query(info)
     return query.all()
 
   def resolve_vendor(root, info, id):
     query = Vendor.get_query(info)
-    return query.filter(Vendor.id == id).first()
+    return query.filter(VendorModel.id == id).first()
 
 schema = Schema(query=Query)

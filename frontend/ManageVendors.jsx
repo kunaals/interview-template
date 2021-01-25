@@ -7,11 +7,12 @@ import customStyleSheet from './lib/customStyleSheet';
 import evergreenIcon from './img/evergreen_icon.png';
 import getImageUri from './utils/getImageUri';
 
-const GET_USER_QUERY = gql`
-  query GetUser($id: Int!) {
-    user(id: $id) {
-      firstName
-      lastName
+const GET_VENDOR_QUERY = gql`
+  query GetVendor($id: Int!) {
+    vendor(id: $id) {
+      name
+      description
+      externalLink
     }
   }
 `;
@@ -26,21 +27,22 @@ const styles = customStyleSheet(({ color, bp }) => ({
     backgroundColor: color.background,
     height: '100vh',
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'left',
+    alignItems: 'top',
+    padding: '20px 20px',
   },
 }));
 
 function App() {
-  const { data } = useQuery(GET_USER_QUERY, {
+  const { data } = useQuery(GET_VENDOR_QUERY, {
     variables: {
       id: 1,
     },
   });
 
-  const user = data && data.user;
-  const titleText = user
-    ? `Welcome to Evergreen ${user.firstName} ${user.lastName}!`
+  const vendor = data && data.vendor;
+  const titleText = vendor
+    ? `Welcome to Evergreen ${vendor.name}!`
     : 'Welcome to Evergreen!';
 
   return (

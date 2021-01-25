@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   entry: {
     main: ['./frontend/index.tsx'],
+    manage_vendors: ['./frontend/manage_vendors.tsx'],
   },
   output: {
     filename: '[name].bundle.js',

@@ -17,6 +17,13 @@ def index():
     js_url='//localhost:8080/main.bundle.js'
   )
 
+@app.route('/manage/')
+def manage():
+  return render_template(
+    'manage_vendors.html',
+    js_url='//localhost:8080/manage_vendors.bundle.js'
+  )
+
 app.add_url_rule('/graphql', view_func=GraphQLView.as_view(
   'graphql',
   schema=schema,

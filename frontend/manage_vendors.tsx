@@ -4,13 +4,14 @@ import ReactDOM from 'react-dom';
 import { ApolloProvider } from '@apollo/client';
 
 import './index.css';
-import ManageVendors from './ManageVendors';
-import apolloClient from './gql/client';
+import VendorTable from './components/manageVendors';
+import { PRODUCTS } from './components/manageVendors';
+import apolloClient from './gql/client'; 
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
-      <ManageVendors />
+      <VendorTable vendors={PRODUCTS} />
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root'),

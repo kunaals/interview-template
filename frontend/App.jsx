@@ -16,7 +16,7 @@ const GET_USER_QUERY = gql`
   }
 `;
 
-const styles = customStyleSheet(({ color, bp }) => ({
+export const styles = customStyleSheet(({ color, bp }) => ({
   logo: {
     height: 40,
     width: 40,

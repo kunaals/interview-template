@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { ApolloProvider } from '@apollo/client';
 
 import './index.css';
-import App from './components/manageVendors';
+import App from './components/ManageVendors';
 import apolloClient from './gql/client'; 
 
 ReactDOM.render(

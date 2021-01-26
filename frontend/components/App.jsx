@@ -2,10 +2,10 @@ import React from 'react';
 import { css } from 'aphrodite';
 import { gql, useQuery } from '@apollo/client';
 
-import Text from './lib/Text';
-import customStyleSheet from './lib/customStyleSheet';
-import evergreenIcon from './img/evergreen_icon.png';
-import getImageUri from './utils/getImageUri';
+import Text from '../lib/Text';
+import customStyleSheet from '../lib/customStyleSheet';
+import evergreenIcon from '../img/evergreen_icon.png';
+import getImageUri from '../utils/getImageUri';
 
 const GET_USER_QUERY = gql`
   query GetUser($id: Int!) {

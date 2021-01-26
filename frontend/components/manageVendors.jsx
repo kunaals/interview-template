@@ -7,6 +7,7 @@ import Text from '../lib/Text';
 import evergreenIcon from '../img/evergreen_icon.png';
 import getImageUri from '../utils/getImageUri';
 import ReactTextCollapse from 'react-text-collapse'
+import Select from 'react-select'
 import color from '../lib/color';
 
 
@@ -41,6 +42,26 @@ const TEXT_COLLAPSE_OPTIONS = {
   }
 };
 
+class VendorCategory extends Component {
+  render() {
+    const options = [
+      { value: 'software', label: 'Software' },
+      { value: 'other', label: 'Other' },
+      { value: 'consulting', label: 'Consulting, staffing, and professional services' }
+    ]
+    return (<Select options={options} />);
+  }
+}
+
+class VendorStatus extends Component {
+  render() {
+    const options = [
+      { value: '1', label: '1' },
+      { value: '2', label: '2' },
+    ]
+    return (<Select options={options} />);
+  }
+}
 
 class VendorRow extends Component {
   render() {
@@ -53,8 +74,8 @@ class VendorRow extends Component {
           <p>{vendor.description}</p>
         </ReactTextCollapse></td>
         <td><a href={vendor.externalLink}>{vendor.externalLink}</a></td>
-        <td>{vendor.category}</td>
-        <td>{vendor.status}</td>
+        <td><VendorCategory /></td>
+        <td><VendorStatus /></td>
         <td>{vendor.risk}</td>
       </tr>
     );
@@ -129,7 +150,7 @@ function App() {
         </Text>
       </div>
       <VendorTable vendors={vendors} />
-    </div>
+    </div >
   );
 }
 

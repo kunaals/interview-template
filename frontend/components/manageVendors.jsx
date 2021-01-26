@@ -3,6 +3,11 @@ import { css } from 'aphrodite';
 import customStyleSheet from '../lib/customStyleSheet';
 import { gql, useQuery } from '@apollo/client';
 
+import Text from '../lib/Text';
+import evergreenIcon from '../img/evergreen_icon.png';
+import getImageUri from '../utils/getImageUri';
+import ReactTextCollapse from 'react-text-collapse'
+
 
 const styles = customStyleSheet(({ color, bp }) => ({
   logo: {
@@ -12,7 +17,7 @@ const styles = customStyleSheet(({ color, bp }) => ({
   },
   container: {
     backgroundColor: color.background,
-    height: '100vh',
+    height: '3.5vh',
     display: 'flex',
     justifyContent: 'left',
     alignItems: 'top',
@@ -20,8 +25,23 @@ const styles = customStyleSheet(({ color, bp }) => ({
   },
   table: {
     border: '1px solid black',
+    backgroundColor: color.background,
   },
 }));
+
+const TEXT_COLLAPSE_OPTIONS = {
+  collapse: false, // default state when component rendered
+  collapseText: '... show more', // text to show when collapsed
+  expandText: 'show less', // text to show when expanded
+  minHeight: 100, // component height when closed
+  maxHeight: 250, // expanded to
+  textStyle: { // pass the css for the collapseText and expandText here
+    color: "blue",
+    fontSize: "20px"
+  }
+};
+
+
 
 class VendorRow extends Component {
   render() {
@@ -30,17 +50,23 @@ class VendorRow extends Component {
     return (
       <tr>
         <td>{vendor.name}</td>
-        <td>{vendor.description}</td>
+        <td><ReactTextCollapse options={TEXT_COLLAPSE_OPTIONS}>
+          <p>{vendor.description}</p>
+        </ReactTextCollapse></td>
+        <td><a href={vendor.externalLink}>{vendor.externalLink}</a></td>
+        <td>{vendor.category}</td>
+        <td>{vendor.status}</td>
+        <td>{vendor.risk}</td>
       </tr>
     );
   }
 }
 
 class VendorTable extends Component {
-  
+
   render() {
     const rows = [];
-    
+
     this.props.vendors.forEach((vendor) => {
       rows.push(
         <VendorRow
@@ -56,6 +82,10 @@ class VendorTable extends Component {
             <tr className={css(styles.table)}>
               <th>Name</th>
               <th>Description</th>
+              <th>Link</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Risk</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
@@ -70,10 +100,14 @@ const GET_VENDOR_QUERY = gql`
     vendors {
       name
       description
+      externalLink
+      category
+      status
+      risk
     }
   }
 `;
- 
+
 function App() {
   const { loading, error, data } = useQuery(GET_VENDOR_QUERY);
 
@@ -85,9 +119,19 @@ function App() {
 
   return (
     <div>
+      <div className={css(styles.container)}>
+        <img
+          className={css(styles.logo)}
+          src={getImageUri(evergreenIcon)}
+          alt="logo"
+        />
+        <Text title1>
+          Vendor Management Portal
+        </Text>
+      </div>
       <VendorTable vendors={vendors} />
     </div>
   );
 }
- 
+
 export default App;

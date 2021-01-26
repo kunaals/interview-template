@@ -3,6 +3,7 @@ import { css } from 'aphrodite';
 import customStyleSheet from '../lib/customStyleSheet';
 import { gql, useQuery } from '@apollo/client';
 
+
 const styles = customStyleSheet(({ color, bp }) => ({
   logo: {
     height: 40,
@@ -65,25 +66,28 @@ class VendorTable extends Component {
 }
 
 const GET_VENDOR_QUERY = gql`
-  query GetVendor {
+  query GetVendors {
     vendors {
-      id
       name
       description
     }
   }
 `;
-
-const { data: vendors } = useQuery(GET_VENDOR_QUERY);
-export const VENDORS = vendors && vendors.vendors;
-
-export const PRODUCTS = [
-  {description: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
-  {description: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
-  {description: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
-  {description: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
-  {description: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
-  {description: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
-];
  
-export default VendorTable;
+function App() {
+  const { loading, error, data } = useQuery(GET_VENDOR_QUERY);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>ERROR</p>;
+  if (!data) return <p>Not found</p>;
+
+  const vendors = data && data.vendors;
+
+  return (
+    <div>
+      <VendorTable vendors={vendors} />
+    </div>
+  );
+}
+ 
+export default App;

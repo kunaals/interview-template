@@ -7,6 +7,7 @@ import Text from '../lib/Text';
 import evergreenIcon from '../img/evergreen_icon.png';
 import getImageUri from '../utils/getImageUri';
 import ReactTextCollapse from 'react-text-collapse'
+import color from '../lib/color';
 
 
 const styles = customStyleSheet(({ color, bp }) => ({
@@ -24,7 +25,6 @@ const styles = customStyleSheet(({ color, bp }) => ({
     padding: '20px 20px',
   },
   table: {
-    border: '1px solid black',
     backgroundColor: color.background,
   },
 }));
@@ -36,11 +36,10 @@ const TEXT_COLLAPSE_OPTIONS = {
   minHeight: 100, // component height when closed
   maxHeight: 250, // expanded to
   textStyle: { // pass the css for the collapseText and expandText here
-    color: "blue",
-    fontSize: "20px"
+    color: color.grayGradient,
+    fontSize: "16"
   }
 };
-
 
 
 class VendorRow extends Component {

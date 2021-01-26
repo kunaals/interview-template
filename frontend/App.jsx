@@ -16,7 +16,7 @@ const GET_USER_QUERY = gql`
   }
 `;
 
-const styles = customStyleSheet(({ color, bp }) => ({
+export const styles = customStyleSheet(({ color, bp }) => ({
   logo: {
     height: 40,
     width: 40,
@@ -26,6 +26,7 @@ const styles = customStyleSheet(({ color, bp }) => ({
     backgroundColor: color.background,
     height: '100vh',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -52,6 +53,9 @@ function App() {
       />
       <Text title1>
         {titleText}
+      </Text>
+      <Text title2>
+        <a href='/manage/'>Vendor Management Portal</a>
       </Text>
     </div>
   );

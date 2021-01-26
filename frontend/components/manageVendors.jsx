@@ -119,11 +119,11 @@ function App() {
   return (
     <div>
       <div className={css(styles.container)}>
-        <img
+        <a href="/"><img
           className={css(styles.logo)}
           src={getImageUri(evergreenIcon)}
           alt="logo"
-        />
+        /></a>
         <Text title1>
           Vendor Management Portal
         </Text>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { css } from 'aphrodite';
 import customStyleSheet from '../lib/customStyleSheet';
 import { gql, useQuery } from '@apollo/client';
@@ -9,6 +9,7 @@ import getImageUri from '../utils/getImageUri';
 import ReactTextCollapse from 'react-text-collapse'
 import Select from 'react-select'
 import color from '../lib/color';
+import { Typeahead, AsyncTypeahead } from 'react-bootstrap-typeahead';
 
 
 const styles = customStyleSheet(({ color, bp }) => ({
@@ -82,6 +83,45 @@ class VendorRow extends Component {
   }
 }
 
+const sampleTypeaheadOptions = [
+  {id: 1, label: 'John'},
+  {id: 2, label: 'Miles'},
+  {id: 3, label: 'Charles'},
+  {id: 4, label: 'Herbie'},
+];
+
+const newTypeaheadOptions = [
+  {id: 1, label: 'John'},
+  {id: 2, label: 'Miles'},
+  {id: 3, label: 'Charles'},
+  {id: 4, label: 'Herbie'},
+  {id: 5, label: 'John1'},
+  {id: 6, label: 'John2'},
+];
+
+function VendorTypeahead({
+}) {
+  const [loading, setLoading] = useState(false);
+  const [options, setOptions] = useState(sampleTypeaheadOptions);
+  return (
+    <AsyncTypeahead
+      style={{ paddingTop: 50 }}
+      options={options}
+      isLoading={loading}
+      useCache={false}
+      onChange={(value) => {
+      }}
+      onSearch={(value) => {
+        setLoading(true);
+        setTimeout(() => {
+          setLoading(false);
+          setOptions(newTypeaheadOptions);
+        }, 1000);
+      }}
+    />
+  );
+}
+
 class VendorTable extends Component {
 
   render() {
@@ -96,20 +136,23 @@ class VendorTable extends Component {
     });
 
     return (
-      <div className={css(styles.container)}>
-        <table className={css(styles.table)}>
-          <thead className={css(styles.table)}>
-            <tr className={css(styles.table)}>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Link</th>
-              <th>Category</th>
-              <th>Status</th>
-              <th>Risk</th>
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </table>
+      <div>
+        <VendorTypeahead />
+        <div className={css(styles.container)}>
+          <table className={css(styles.table)}>
+            <thead className={css(styles.table)}>
+              <tr className={css(styles.table)}>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Link</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Risk</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </table>
+        </div>
       </div>
     );
   }

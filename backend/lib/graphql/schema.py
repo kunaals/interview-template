@@ -4,6 +4,21 @@ from graphene_sqlalchemy import SQLAlchemyObjectType
 from backend.models.user_model import UserModel
 from backend.models.vendor_model import VendorModel
 
+class TestMutation(graphene.Mutation):
+  class Arguments:
+    test_arg = String()
+
+  result = String()
+
+  def mutate(root, info, **kwargs):
+    # Do some mutation
+    return TestMutation(
+      result="Test response"
+    )
+
+class Mutations(graphene.ObjectType):
+  test_mutation = TestMutation.Field()
+
 class User(SQLAlchemyObjectType):
   class Meta:
     model = UserModel
@@ -36,4 +51,4 @@ class Query(ObjectType):
     query = Vendor.get_query(info)
     return query.filter(VendorModel.id == id).first()
 
-schema = Schema(query=Query)
+schema = Schema(query=Query, mutation=Mutations)

@@ -30,6 +30,27 @@ const styles = customStyleSheet(({ color, bp }) => ({
   },
 }));
 
+const customStyles = {
+  menu: (provided, state) => ({
+    ...provided,
+    width: state.selectProps.width,
+    borderBottom: '1px dotted pink',
+    color: state.selectProps.menuColor,
+    padding: 20,
+  }),
+
+  control: (_, { selectProps: { width }}) => ({
+    width: width
+  }),
+
+  singleValue: (provided, state) => {
+    const opacity = state.isDisabled ? 0.5 : 1;
+    const transition = 'opacity 300ms';
+
+    return { ...provided, opacity, transition };
+  }
+}
+
 const TEXT_COLLAPSE_OPTIONS = {
   collapse: false, // default state when component rendered
   collapseText: '... show more', // text to show when collapsed
@@ -45,21 +66,26 @@ const TEXT_COLLAPSE_OPTIONS = {
 class VendorCategory extends Component {
   render() {
     const options = [
-      { value: 'software', label: 'Software' },
-      { value: 'other', label: 'Other' },
-      { value: 'consulting', label: 'Consulting, staffing, and professional services' }
+      { value: 'dev_software', label: 'Developer software' },
+      { value: 'marketing_software', label: 'Marketing Software' },
+      { value: 'it_contractor', label: 'IT Contractor' },
+      { value: 'law_firm', label: 'Law firm' },
+      { value: 'marketing_agency', label: 'Marketing agency' },
     ]
-    return (<Select options={options} />);
+    return (<Select styles={customStyles} width='200px' options={options} />);
   }
 }
 
 class VendorStatus extends Component {
   render() {
     const options = [
-      { value: '1', label: '1' },
-      { value: '2', label: '2' },
+      { value: 'active', label: 'Active' },
+      { value: 'preferred', label: 'Preferred' },
+      { value: 'inactive', label: 'Inactive' },
+      { value: 'banned', label: 'Banned' },
+      { value: 'draft', label: 'Draft' },
     ]
-    return (<Select options={options} />);
+    return (<Select styles={customStyles} width='200px' options={options} />);
   }
 }
 

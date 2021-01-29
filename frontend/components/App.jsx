@@ -1,11 +1,19 @@
 import React from 'react';
 import { css } from 'aphrodite';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useMutation } from '@apollo/client';
 
 import Text from '../lib/Text';
 import customStyleSheet from '../lib/customStyleSheet';
 import evergreenIcon from '../img/evergreen_icon.png';
 import getImageUri from '../utils/getImageUri';
+
+const TEST_MUTATION = gql`
+  mutation TestMutation($arg: String!) {
+    testMutation(testArg: $arg) {
+      result
+    }
+  }
+`;
 
 const GET_USER_QUERY = gql`
   query GetUser($id: Int!) {
@@ -39,6 +47,13 @@ function App() {
     },
   });
 
+  const [testMutate] = useMutation(TEST_MUTATION, {
+    update(cache, { data: { testMutation: { result } }}) {
+      console.log(result);
+      // DO cache mutations here.
+    },
+  });
+
   const user = data && data.user;
   const titleText = user
     ? `Welcome to Evergreen ${user.firstName} ${user.lastName}!`
@@ -57,6 +72,16 @@ function App() {
       <Text title2>
         <a href='/manage/'>Vendor Management Portal</a>
       </Text>
+      <button
+        type="button"
+        onClick={() => testMutate({
+          variables: {
+            arg: 'test',
+          },
+        })}
+      >
+        Button
+      </button>
     </div>
   );
 }

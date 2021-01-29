@@ -1,19 +1,11 @@
 import React from 'react';
 import { css } from 'aphrodite';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 
 import Text from '../lib/Text';
 import customStyleSheet from '../lib/customStyleSheet';
 import evergreenIcon from '../img/evergreen_icon.png';
 import getImageUri from '../utils/getImageUri';
-
-const TEST_MUTATION = gql`
-  mutation TestMutation($arg: String!) {
-    testMutation(testArg: $arg) {
-      result
-    }
-  }
-`;
 
 const GET_USER_QUERY = gql`
   query GetUser($id: Int!) {
@@ -44,13 +36,6 @@ function App() {
   const { data } = useQuery(GET_USER_QUERY, {
     variables: {
       id: 1,
-    },
-  });
-
-  const [testMutate] = useMutation(TEST_MUTATION, {
-    update(cache, { data: { testMutation: { result } }}) {
-      console.log(result);
-      // DO cache mutations here.
     },
   });
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { css } from 'aphrodite';
 import customStyleSheet from '../lib/customStyleSheet';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useMutation } from '@apollo/client';
 
 import Text from '../lib/Text';
 import evergreenIcon from '../img/evergreen_icon.png';
@@ -30,7 +30,7 @@ const styles = customStyleSheet(({ color, bp }) => ({
   },
 }));
 
-const customStyles = {
+const menuStyles = {
   menu: (provided, state) => ({
     ...provided,
     width: state.selectProps.width,
@@ -39,7 +39,7 @@ const customStyles = {
     padding: 20,
   }),
 
-  control: (_, { selectProps: { width }}) => ({
+  control: (_, { selectProps: { width } }) => ({
     width: width
   }),
 
@@ -63,6 +63,7 @@ const TEXT_COLLAPSE_OPTIONS = {
   }
 };
 
+// TODO: change category and status options to graphene enum
 class VendorCategory extends Component {
   render() {
     const options = [
@@ -72,9 +73,18 @@ class VendorCategory extends Component {
       { value: 'law_firm', label: 'Law firm' },
       { value: 'marketing_agency', label: 'Marketing agency' },
     ]
-    return (<Select styles={customStyles} width='200px' options={options} />);
+    return (<Select styles={menuStyles} width='200px' options={options} />);
   }
 }
+
+const UPDATE_VENDOR_STATUS = gql`
+  mutation UpdateVendorStatus($id: Int!, $status: Int!) {
+    updateVendorStatus(id: $id, status: $status) {
+      name
+      status
+    }
+  }  
+`;
 
 class VendorStatus extends Component {
   render() {
@@ -85,7 +95,12 @@ class VendorStatus extends Component {
       { value: 'banned', label: 'Banned' },
       { value: 'draft', label: 'Draft' },
     ]
-    return (<Select styles={customStyles} width='200px' options={options} />);
+
+    return (<Select 
+      styles={menuStyles} 
+      width='200px' 
+      options={options}
+    />);
   }
 }
 
@@ -160,7 +175,7 @@ function App() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>ERROR</p>;
   if (!data) return <p>Not found</p>;
-
+  
   const vendors = data && data.vendors;
 
   return (

@@ -75,6 +75,53 @@ class Mutations(ObjectType):
 
 schema = Schema(query=Query, mutation=Mutations)
 
+class Node:
+  def __init__(self, value, parent=None, children={}):
+    self.value = value
+    self.parent = parent
+    self.children = children
+
+class Autocomplete:
+  def __init__(self):
+    # vendors = VendorModel.query.all()  # all the vendor names
+    vendors = ["airtable", "amazon"]
+    self.root_node = Node('')
+    for vendor in vendors:
+      cur_node = self.root_node
+      for c in vendor:
+        if c in cur_node.children.keys():
+          cur_node = cur_node.children[c]
+          continue
+        prev_node = cur_node
+        cur_node = Node(c, cur_node)
+        prev_node.children[c] = cur_node
+    
+  def get_prefix(self, prefix):
+    original_prefix = prefix
+    cur_node = self.root_node
+
+    def helper(cur_node, prefix):
+      if prefix[0] in cur_node.children.keys():
+        cur_node = cur_node.children[prefix[0]]
+        prefix = prefix[1:]
+      else:
+        return cur_node
+      return helper(cur_node, prefix)
+    
+    remaining_nodes = helper(self.root_node, prefix)
+    while len(remaining_nodes.children.keys()) > 0:
+      ch = remaining_nodes.children.keys()[0]
+      original_prefix += ch
+
+    return original_prefix
+
+    
+
+
+autocomplete = Autocomplete()
+print(autocomplete.root_node.children)
+
+
 # For testing
 result = schema.execute(
   """

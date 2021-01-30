@@ -92,31 +92,31 @@ class Autocomplete:
         if c in cur_node.children.keys():
           cur_node = cur_node.children[c]
           continue
-        prev_node = cur_node
-        cur_node = Node(c, cur_node)
-        prev_node.children[c] = cur_node
+        cur_node.children[c] = Node(c, cur_node, {})
+        cur_node = cur_node.children[c]
     
   def get_prefix(self, prefix):
     original_prefix = prefix
     cur_node = self.root_node
 
     def helper(cur_node, prefix):
+      if len(prefix) == 0:
+          return cur_node
       if prefix[0] in cur_node.children.keys():
         cur_node = cur_node.children[prefix[0]]
         prefix = prefix[1:]
       else:
-        return cur_node
+        raise Exception("not found")
       return helper(cur_node, prefix)
     
     remaining_nodes = helper(self.root_node, prefix)
+
     while len(remaining_nodes.children.keys()) > 0:
-      ch = remaining_nodes.children.keys()[0]
+      ch = list(remaining_nodes.children.keys())[0]
       original_prefix += ch
+      remaining_nodes = remaining_nodes.children[ch]
 
     return original_prefix
-
-    
-
 
 autocomplete = Autocomplete()
 print(autocomplete.root_node.children)
